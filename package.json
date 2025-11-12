@@ -1,0 +1,22 @@
+{
+  "name": "work-impact-analysis",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "collect": "node scripts/collect.js",
+    "analyze": "node scripts/analyze.js",
+    "full": "pnpm run collect -- --since=2025-06-01 && pnpm run analyze",
+    "setup": "node scripts/setup.js",
+    "init-data": "node scripts/init-data.js",
+    "list-models": "node scripts/list-models.js",
+    "lint": "eslint \"src/**\""
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "minimist": "^1.2.8"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1"
+  }
+}
