@@ -37,7 +37,7 @@
    pnpm run analyze                      # writes reports/<timestamp>-impact.md (ISO-ish)
    ```
 
-   Use `--since=YYYY-MM-DD` if you prefer an explicit starting point.
+   Use `--since=YYYY-MM-DD` if you prefer an explicit starting point and use `--until=YYYY-MM-DD` if you prefer an explicit ending date.
 
 ## Available Scripts
 

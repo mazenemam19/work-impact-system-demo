@@ -129,7 +129,7 @@ export const createGitCollector = (repoPath, authorEmail) => {
   validateEmail(authorEmail);
 
   const getRecentCommits = (options = {}) => {
-    const { since, days } = options || {};
+    const { since, until, days } = options || {};
     const sinceDate = since
       ? since
       : new Date(Date.now() - (days || 30) * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
@@ -140,9 +140,11 @@ export const createGitCollector = (repoPath, authorEmail) => {
       "-z",
       `--author=${authorEmail}`,
       `--since=${sinceDate}`,
-      "--format=%H%n%aI%n%s%n%b",
-      "--numstat",
     ];
+    if (until) {
+        args.push(`--until=${until}`);
+    }
+    args.push("--format=%H%n%aI%n%s%n%b", "--numstat");
     const res = spawnSync("git", args, { encoding: "utf-8", maxBuffer: 50 * 1024 * 1024 });
     if (res.error) {
       throw new Error(`Failed to execute git command: ${res.error.message}`);

@@ -20,8 +20,11 @@ async function collect() {
 
   const days = argv.days || scanArg("days");
   const since = argv.since || scanArg("since");
+  const until = argv.until || scanArg("until");
 
-  if (since) {
+  if (since && until) {
+    console.log(`🔍 Collecting work data from ${since} to ${until}...`);
+  } else if (since) {
     console.log(`🔍 Collecting work data since ${since}...`);
   } else {
     console.log(`🔍 Collecting work data for last ${days || 30} days...`);
@@ -31,7 +34,7 @@ async function collect() {
   const authorEmail = process.env.GIT_EMAIL;
 
   const collector = createGitCollector(repoPath, authorEmail);
-  const commits = collector.getRecentCommits({ since, days });
+  const commits = collector.getRecentCommits({ since, until, days });
   const enrichedCommits = collector.enrichCommits(commits);
 
   const totalLinesAdded = commits.reduce((sum, commit) => sum + (commit.linesAdded || 0), 0);
@@ -43,7 +46,7 @@ async function collect() {
 
   await saveWork({
     collectedAt: new Date().toISOString(),
-    period: { days: days ? Number(days) : null, since: since || null },
+    period: { days: days ? Number(days) : null, since: since || null, until: until || null },
     commits: enrichedCommits,
     summary: {
       totalCommits: commits.length,
